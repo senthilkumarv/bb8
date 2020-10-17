@@ -53,7 +53,7 @@ use futures::prelude::*;
 use futures::stream::FuturesUnordered;
 use tokio::spawn;
 use tokio::sync::{Mutex, MutexGuard};
-use tokio::time::{delay_for, interval_at, timeout, Interval};
+use tokio::time::{sleep, interval_at, timeout, Interval};
 
 /// A trait which provides connection-specific functionality.
 #[async_trait]
@@ -491,7 +491,7 @@ where
                 } else {
                     delay = max(Duration::from_millis(200), delay);
                     delay = min(pool.statics.connection_timeout / 2, delay * 2);
-                    delay_for(delay).await;
+                    sleep(delay).await;
                 }
             }
         }
